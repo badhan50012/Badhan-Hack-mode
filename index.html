@@ -1,416 +1,309 @@
-<!DOCTYPE Html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Badhan ferr fire hack</title>
-
-</head>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Badhan Fire Hack</title>
 <style>
-
 *{box-sizing:border-box}
 :root{
-  --bg:#e8fbf4;
-  --card:#f4fffb;
-  --text:#123c3a;
-  --muted:#527876;
-  --border:#b9e8dc;
-  --accent:#43c6b5;
-  --accent2:#69c9f5;
-  --hover:#d7f6ef;
+  --bg:#e8fbf4; --card:#f4fffb; --text:#123c3a; --muted:#527876;
+  --border:#b9e8dc; --accent:#43c6b5; --accent2:#69c9f5; --hover:#d7f6ef;
 }
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
+  margin:0; font-family:Arial,sans-serif;
   background:linear-gradient(135deg,var(--bg),#e5f7ff);
-  color:var(--text);
-  min-height:100vh;
+  color:var(--text); min-height:100vh;
 }
 body.dark{
-  --bg:#0b2425;
-  --card:#123334;
-  --text:#eaffff;
-  --muted:#a5cecc;
-  --border:#28615f;
-  --accent:#45cdb9;
-  --accent2:#61c9f4;
-  --hover:#194847;
+  --bg:#0b2425; --card:#123334; --text:#eaffff; --muted:#a5cecc;
+  --border:#28615f; --accent:#45cdb9; --accent2:#61c9f4; --hover:#194847;
 }
 header{
-  height:64px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:0 15px;
-  background:linear-gradient(90deg,#d9f8ed,#dff4ff);
-  border-bottom:1px solid var(--border);
-  position:sticky;
-  top:0;
-  z-index:5;
+  height:64px; display:flex; align-items:center; gap:12px;
+  padding:0 15px; background:linear-gradient(90deg,#d9f8ed,#dff4ff);
+  border-bottom:1px solid var(--border); position:sticky; top:0; z-index:5;
 }
 body.dark header{background:linear-gradient(90deg,#123d3b,#123b4c)}
 header h2{white-space:nowrap}
 header button,#side button{
-  border:0;
-  background:transparent;
-  color:inherit;
-  padding:12px;
-  font-size:18px;
+  border:0; background:transparent; color:inherit; padding:12px;
+  font-size:18px; cursor:pointer;
 }
 #search{
-  flex:1;
-  max-width:650px;
-  padding:11px 15px;
-  border-radius:25px;
-  border:1px solid var(--border);
-  background:#f1fffb;
-  color:var(--text);
+  flex:1; max-width:650px; padding:11px 15px; border-radius:25px;
+  border:1px solid var(--border); background:#f1fffb; color:var(--text);
   outline:0;
 }
 body.dark #search{background:#173f40}
 #side{
-  position:fixed;
-  top:64px;
-  bottom:0;
-  width:230px;
-  padding:15px;
+  position:fixed; top:64px; bottom:0; width:230px; padding:15px;
   background:linear-gradient(180deg,#e0faf1,#e1f5ff);
-  border-right:1px solid var(--border);
-  display:flex;
-  flex-direction:column;
-  gap:5px;
+  border-right:1px solid var(--border); display:flex; flex-direction:column;
+  gap:5px; overflow-y:auto;
 }
 body.dark #side{background:linear-gradient(180deg,#123b39,#123746)}
-#side a{
-  text-decoration:none;
-  color:inherit;
-  padding:13px 12px;
-  border-radius:9px;
+#side a, #side button{
+  text-decoration:none; color:inherit; padding:13px 12px;
+  border-radius:9px; text-align:left; font-size:15px; cursor:pointer;
 }
 #side a:hover,#side button:hover{background:var(--hover)}
 main{margin-left:230px;padding:22px}
-.card1{
-  background:var(--card);
-  padding:20px;
-  border-radius:14px;
-  margin-bottom:20px;
-  border:1px solid var(--border);
-  box-shadow:0 5px 18px rgba(50,150,150,.08);
-}
 
-.card2{
-  background:var(--card);
-  padding:20px;
-  border-radius:14px;
-  margin-top: 10px;
-  margin-bottom:16px;
-  border:1px solid var(--border);
-  box-shadow:0 5px 18px rgba(50,150,150,.08);
+.card{
+  background:var(--card); padding:20px; border-radius:14px;
+  margin-bottom:20px; border:1px solid var(--border);
+  box-shadow:0 5px 18px rgba(50,150,150,.08); transition:box-shadow .2s;
 }
+.card:hover{box-shadow:10px 10px 20px rgba(0,0,0,.25)}
+.card1,.card2,.card3{
+  background:var(--card); padding:20px; border-radius:14px;
+  border:1px solid var(--border); box-shadow:0 5px 18px rgba(50,150,150,.08);
+  transition:box-shadow .2s; margin-bottom:16px;
+}
+.card1:hover,.card2:hover,.card3:hover{box-shadow:10px 10px 20px rgba(0,0,0,.25)}
 
-.card3{
-  background:var(--card);
-  padding:20px;
-  border-radius:14px;
-  margin-bottom:16px;
-  border:1px solid var(--border);
-  box-shadow:0 5px 18px rgba(50,150,150,.08);
-}
 .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
   gap:15px;
 }
 .media video{
-  width:100%;
-  max-height:320px;
-  background:#06191b;
-  border-radius:9px;
+  width:100%; max-height:320px; background:#06191b; border-radius:9px;
 }
-.name{
-  font-weight:bold;
-  margin:10px 0;
-  word-break:break-word;
-}
-.btn1{
-  padding:10px 15px;
-  border:0;
-  border-radius:8px;
+.name{font-weight:bold; margin:10px 0; word-break:break-word}
+
+.btn,.btn1,.btn2,.btn3{
+  padding:10px 15px; border:0; border-radius:8px;
   background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:white;
-  cursor:pointer;
+  color:white; cursor:pointer; font-size:15px; margin-top:8px;
 }
-
-
-.btn2{
-  padding:10px 15px;
-  border:0;
-  border-radius:8px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:white;
-  cursor:pointer;
-}
-
-
-.btn3{
-  padding:10px 15px;
-  border:0;
-  border-radius:8px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:white;
-  cursor:pointer;
-}
-
+.btn:hover,.btn1:hover,.btn2:hover,.btn3:hover{filter:brightness(1.1)}
+.btn.red{background:linear-gradient(135deg,#e57373,#c62828)}
 
 input,select{
-  width:100%;
-  padding:11px 12px;
-  margin:7px 0;
-  border:1px solid var(--border);
-  border-radius:9px;
-  background:#f1fffb;
-  color:var(--text);
+  width:100%; padding:11px 12px; margin:7px 0;
+  border:1px solid var(--border); border-radius:9px;
+  background:#f1fffb; color:var(--text); font-size:15px;
 }
 body.dark input,body.dark select{background:#173f40}
+
 .avatar{
-  width:130px;
-  height:130px;
-  border-radius:50%;
-  object-fit:cover;
+  width:130px; height:130px; border-radius:50%; object-fit:cover;
   border:3px solid var(--accent);
 }
+
+.admin-row{
+  display:flex; align-items:center; gap:10px; padding:10px;
+  border-bottom:1px solid var(--border); word-break:break-word;
+}
+.admin-row:last-child{border-bottom:0}
+
 h1,h2,h3{color:var(--text)}
 p{line-height:1.6}
+
 @media(max-width:700px){
   header h2{display:none}
-  #side{
-    transform:translateX(-100%);
-    transition:.2s;
-    width:215px;
-  }
+  #side{transform:translateX(-100%); transition:.2s; width:215px}
   #side.open{transform:translateX(0)}
   main{margin-left:0;padding:15px}
 }
 
-
 .muted{
-  text-align: center;
-  background: linear-gradient(to left, #e57373, #651fff, #e91e63, #9c27b0);
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  
-  font-size: 22px;
+  text-align:center;
+  background:linear-gradient(to left,#e57373,#651fff,#e91e63,#9c27b0);
+  -webkit-text-fill-color:transparent; background-clip:text; font-size:22px;
 }
-
-
-#hm-btn{
-  text-align: center;
-}
-
+#hm-btn{text-align:center}
 .BRtitle{
-  text-align: center;
-  background: linear-gradient(to right,  #9c27b0, lightblue, hotpink,  #651fff);
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-size: 45px;
+  text-align:center;
+  background:linear-gradient(to right,#9c27b0,lightblue,hotpink,#651fff);
+  -webkit-text-fill-color:transparent; background-clip:text;
+  font-size:45px; margin:15px 20px;
 }
-
-
-.card1:hover{
-  box-shadow: 10px 10px 20px black;
+#progress{
+  height:8px; background:var(--border); border-radius:6px;
+  overflow:hidden; margin-top:10px; display:none;
 }
-
-
-.card2:hover{
-  box-shadow: 10px 10px 20px black;
+#progress .bar{
+  height:100%; width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transition:width .15s;
 }
-
-.card3:hover{
-  box-shadow: 10px 10px 20px black;
-}
-  
 </style>
+</head>
 
 <body>
 
-  <header>
-    <button id="menu">☰</button>
+<header>
+  <button id="menu">☰</button>
+  <b>BADHAN MOOD</b>
+  <input id="search" placeholder="Search videos and files">
+  <button id="theme">🌙</button>
+</header>
 
-    <b>BADHAN MOOD</b>
+<h1 class="BRtitle">BADHAN HACK MOOD</h1>
 
-    <input
-      id="search"
-      placeholder="Search videos and files"
-    >
+<aside id="side">
+  <button data-p="home">⌂ Home</button>
+  <button data-p="videos">🎬 Videos</button>
+  <button data-p="files">📁 Files</button>
+  <button data-p="profile">👤 Profile</button>
+  <button data-p="settings">⚙ Settings</button>
+  <a target="_blank" rel="noopener" href="https://www.instagram.com/badhan50012?stkn=YXozYWtxcGNiYXN2">◎ Instagram Account</a>
+  <a target="_blank" rel="noopener" href="https://www.facebook.com/share/1C65RPeyiM/">f Facebook Follow</a>
+  <button data-p="admin">🔒 Admin Panel</button>
+</aside>
 
-    <button id="theme">🌙</button>
-  </header>
-  
-  <h1 class="BRtitle">BADHAN HACK MOOD</h1>
+<main id="app"></main>
 
+<script>
+/* ============================================================
+   IndexedDB Setup — Unlimited Storage
+   ============================================================ */
+const DB_NAME = "badhanDB";
+const DB_VERSION = 1;
+const STORE = "items";
+let db = null;
 
-  <aside id="side">
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
 
-    <button data-p="home">
-      ⌂ Home
-    </button>
+    req.onupgradeneeded = e => {
+      const d = e.target.result;
+      if (!d.objectStoreNames.contains(STORE)) {
+        const store = d.createObjectStore(STORE, { keyPath: "id" });
+        store.createIndex("type", "type", { unique: false });
+        store.createIndex("created", "created", { unique: false });
+      }
+    };
 
-    <button data-p="videos">
-      🎬 Videos
-    </button>
+    req.onsuccess = () => { db = req.result; resolve(db); };
+    req.onerror = () => reject(req.error);
+  });
+}
 
-    <button data-p="files">
-      📁 Files
-    </button>
+function addItem(item) {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, "readwrite");
+    const req = tx.objectStore(STORE).put(item);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
 
-    <button data-p="profile">
-      👤 Profile
-    </button>
+function getAllItems() {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, "readonly");
+    const req = tx.objectStore(STORE).getAll();
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  });
+}
 
-    <button data-p="settings">
-      ⚙ Settings
-    </button>
+function deleteItem(id) {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, "readwrite");
+    const req = tx.objectStore(STORE).delete(id);
+    req.onsuccess = () => resolve();
+    req.onerror = () => reject(req.error);
+  });
+}
 
+function clearAllItems() {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE, "readwrite");
+    const req = tx.objectStore(STORE).clear();
+    req.onsuccess = () => resolve();
+    req.onerror = () => reject(req.error);
+  });
+}
 
-    <a
-      target="_blank"
-      rel="noopener"
-      href="https://www.instagram.com/badhan50012?stkn=YXozYWtxcGNiYXN2"
-    >
-      ◎ Instagram Account
-    </a>
-
-
-    <a
-      target="_blank"
-      rel="noopener"
-      href="https://www.facebook.com/share/1C65RPeyiM/"
-    >
-      f Facebook Follow
-    </a>
-
-
-    <button data-p="admin">
-      🔒 Admin Panel
-    </button>
-
-  </aside>
-
-
-  <main id="app">
-  </main>
-
-
-  <script>
-    
-    const app = document.querySelector("#app"),
+/* ============================================================
+   App state
+   ============================================================ */
+const app = document.querySelector("#app"),
       side = document.querySelector("#side"),
       search = document.querySelector("#search"),
       theme = document.querySelector("#theme");
 
-let items = JSON.parse(localStorage.getItem("badhanItems") || "[]");
+let items = [];
 let currentPage = "home";
-
 
 if (localStorage.theme === "dark") {
   document.body.classList.add("dark");
   theme.textContent = "☀️";
 }
 
-
 document.querySelector("#menu").onclick = () =>
   side.classList.toggle("open");
 
-
 theme.onclick = () => {
   document.body.classList.toggle("dark");
-
   let d = document.body.classList.contains("dark");
-
   localStorage.theme = d ? "dark" : "light";
   theme.textContent = d ? "☀️" : "🌙";
 };
-
 
 document.querySelectorAll("[data-p]").forEach(x =>
   x.onclick = () => page(x.dataset.p)
 );
 
-
-search.oninput = () =>
-  renderMediaPage(currentPage, search.value);
-
+search.oninput = () => {
+  if (currentPage === "videos" || currentPage === "files")
+    renderMediaPage(currentPage, search.value);
+};
 
 function page(p) {
   side.classList.remove("open");
-
   currentPage = p;
   search.value = "";
 
-  if (p === "home")
-    home();
-
-  else if (p === "videos" || p === "files")
-    renderMediaPage(p);
-
-  else if (p === "profile")
-    profile();
-
-  else if (p === "settings")
-    settings();
-
-  else if (p === "admin")
-    admin();
+  if (p === "home") home();
+  else if (p === "videos" || p === "files") renderMediaPage(p);
+  else if (p === "profile") profile();
+  else if (p === "settings") settings();
+  else if (p === "admin") admin();
 }
-
 
 function esc(x) {
   return String(x ?? "").replace(
     /[&<>"']/g,
-    c => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    }[c])
+    c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c])
   );
 }
 
-
+/* ============================================================
+   Card renderer — Blob URL ব্যবহার করছি (memory efficient)
+   ============================================================ */
 function card(x) {
   let c = document.createElement("div");
-
   c.className = "card media";
 
   if (x.type.startsWith("video/")) {
+    // Blob থেকে temporary URL বানাই
+    const url = URL.createObjectURL(x.blob);
     c.innerHTML = `
-      <video controls src="${x.data}"></video>
+      <video controls preload="metadata" src="${url}"></video>
       <div class="name">${esc(x.name)}</div>
+      <p class="muted" style="font-size:13px">${bytes(x.size)}</p>
     `;
   } else {
     c.innerHTML = `
-      <div style="font-size:50px">📄</div>
+      <div style="font-size:50px;text-align:center">📄</div>
       <div class="name">${esc(x.name)}</div>
-      <p class="muted">${bytes(x.size || 0)}</p>
+      <p class="muted" style="font-size:13px">${bytes(x.size)}</p>
     `;
   }
 
   let b = document.createElement("button");
-
   b.className = "btn";
-  b.textContent = "Download";
-
-  b.onclick = () =>
-    downloadData(x.data, x.name);
-
+  b.textContent = "⬇ Download";
+  b.onclick = () => downloadBlob(x.blob, x.name);
   c.appendChild(b);
 
   return c;
 }
-
 
 function renderMediaPage(type, q = "") {
   let isVideo = type === "videos";
@@ -418,374 +311,249 @@ function renderMediaPage(type, q = "") {
   let icon = isVideo ? "🎬" : "📁";
 
   let a = items
-    .filter(
-      x =>
-        isVideo
-          ? x.type.startsWith("video/")
-          : !x.type.startsWith("video/")
-    )
-    .filter(
-      x =>
-        x.name
-          .toLowerCase()
-          .includes(q.toLowerCase())
-    );
+    .filter(x => isVideo ? x.type.startsWith("video/") : !x.type.startsWith("video/"))
+    .filter(x => x.name.toLowerCase().includes(q.toLowerCase()));
 
   app.innerHTML = `
     <div class="card">
       <h1>${icon} ${title}</h1>
-      <p class="muted">
-        ${
-          isVideo
-            ? "All uploaded videos are shown here."
-            : "All uploaded files are shown here."
-        }
-      </p>
+      <p class="muted">${
+        isVideo ? "All uploaded videos are shown here."
+                : "All uploaded files are shown here."
+      }</p>
     </div>
-
     <div id="grid" class="grid"></div>
   `;
 
   let g = document.querySelector("#grid");
-
   if (!a.length) {
-    g.innerHTML = `
-      <div class="card">
-        No ${title.toLowerCase()} found.
-      </div>
-    `;
-
+    g.innerHTML = `<div class="card">No ${title.toLowerCase()} found.</div>`;
     return;
   }
-
-  a.forEach(x =>
-    g.appendChild(card(x))
-  );
+  a.forEach(x => g.appendChild(card(x)));
 }
 
-
 function home() {
-  let videos = items.filter(
-    x => x.type.startsWith("video/")
-  ).length;
-
+  let videos = items.filter(x => x.type.startsWith("video/")).length;
   let files = items.length - videos;
+  let totalSize = items.reduce((s, x) => s + (x.size || 0), 0);
 
   app.innerHTML = `
     <div class="card1">
       <h1 id="hm-btn">🏠 Home</h1>
-      <p class="muted">
-        WELCOME TO BR HACKER SITE
-      </p>
+      <p class="muted">WELCOME TO BR HACKER SITE</p>
+      <p style="text-align:center">Total storage used: <b>${bytes(totalSize)}</b></p>
     </div>
-
     <div class="grid">
-
       <div class="card2">
         <h2>🎬 Videos</h2>
         <p>${videos} video(s)</p>
-        <br>
-        <button
-          class="btn1"
-          onclick="page('videos')"
-        >
-          Open Videos
-        </button>
+        <button class="btn1" onclick="page('videos')">Open Videos</button>
       </div>
-
       <div class="card3">
         <h2>📁 Files</h2>
         <p>${files} file(s)</p>
-        <br>
-        <button
-          class="btn2"
-          onclick="page('files')"
-        >
-          Open Files
-        </button>
+        <button class="btn2" onclick="page('files')">Open Files</button>
       </div>
-
     </div>
   `;
 }
 
-
 function profile() {
   let p = localStorage.profile || "";
-
   app.innerHTML = `
     <div class="card">
       <h1>👤 Profile</h1>
-
-      ${
-        p
-          ? `<img class="avatar" src="${p}">`
-          : `<div style="font-size:80px">👤</div>`
-      }
-
+      ${p ? `<img class="avatar" src="${p}">` : `<div style="font-size:80px">👤</div>`}
       <h3>Profile picture</h3>
-
-      <input
-        id="pic"
-        type="file"
-        accept="image/*"
-      >
+      <input id="pic" type="file" accept="image/*">
     </div>
   `;
-
   document.querySelector("#pic").onchange = e => {
     let f = e.target.files[0];
-
-    if (!f)
-      return;
-
+    if (!f) return;
     let r = new FileReader();
-
     r.onload = () => {
       localStorage.profile = r.result;
       profile();
     };
-
     r.readAsDataURL(f);
   };
 }
 
-
 function settings() {
   app.innerHTML = `
     <div class="card">
-
       <h1>⚙ Settings</h1>
-
-      <button
-        id="m"
-        class="btn"
-      >
-        🌙 Dark / ☀️ Light Mode
-      </button>
-
+      <button id="m" class="btn">🌙 Dark / ☀️ Light Mode</button>
+      <h3>Storage info</h3>
+      <p>Total items: <b>${items.length}</b></p>
+      <p>Total size: <b>${bytes(items.reduce((s,x)=>s+(x.size||0),0))}</b></p>
+      <button id="clearAll" class="btn red">🗑 Clear All Uploads</button>
       <h3>Language</h3>
-
       <select id="lang">
         <option value="en">English</option>
         <option value="bn">বাংলা</option>
         <option value="hi">हिन्दी</option>
       </select>
-
     </div>
   `;
-
-  document.querySelector("#m").onclick = () =>
-    theme.click();
-
+  document.querySelector("#m").onclick = () => theme.click();
   let l = document.querySelector("#lang");
-
   l.value = localStorage.lang || "en";
+  l.onchange = () => localStorage.lang = l.value;
 
-  l.onchange = () =>
-    localStorage.lang = l.value;
+  document.querySelector("#clearAll").onclick = async () => {
+    if (!confirm("Delete ALL uploads? This cannot be undone.")) return;
+    await clearAllItems();
+    items = [];
+    alert("All items deleted.");
+    settings();
+  };
 }
-
 
 function admin() {
   app.innerHTML = `
     <div class="card">
-
       <h1>🔒 Admin Panel</h1>
-
-      <input
-        id="pass"
-        type="password"
-        placeholder="Admin password"
-      >
-
-      <button
-        id="unlock"
-        class="btn3"
-      >
-        Unlock
-      </button>
-
+      <input id="pass" type="password" placeholder="Admin password">
+      <button id="unlock" class="btn3">Unlock</button>
       <p id="msg"></p>
-
     </div>
   `;
-
   document.querySelector("#unlock").onclick = () =>
     document.querySelector("#pass").value === "BADHAN HACKER"
       ? dashboard()
-      : document.querySelector("#msg").textContent =
-          "Wrong password.";
+      : document.querySelector("#msg").textContent = "Wrong password.";
 }
-
 
 function dashboard() {
   app.innerHTML = `
     <div class="card">
-
       <h1>🔒 Admin Panel</h1>
-
-      <h2>Upload Video / File</h2>
-
+      <h2>Upload Video / File (Unlimited)</h2>
       <select id="kind">
         <option value="video">Video</option>
         <option value="file">File</option>
       </select>
-
-      <input
-        id="file"
-        type="file"
-      >
-
-      <button
-        id="up"
-        class="btn"
-      >
-        Upload
-      </button>
-
+      <input id="file" type="file">
+      <button id="up" class="btn">⬆ Upload</button>
+      <div id="progress"><div class="bar"></div></div>
       <p id="msg"></p>
-
     </div>
-
     <div class="card">
-
       <h2>Manage Uploads</h2>
-
       <div id="list"></div>
-
     </div>
   `;
 
   let list = document.querySelector("#list");
+  if (!items.length) list.innerHTML = "<p class='muted'>No uploads yet.</p>";
 
-  if (!items.length)
-    list.innerHTML =
-      "<p class='muted'>No uploads yet.</p>";
-
-  items.forEach((x, i) => {
+  items.forEach(x => {
     let d = document.createElement("div");
-
     d.className = "admin-row";
-
     d.innerHTML = `
       <span style="flex:1">
-        ${
-          x.type.startsWith("video/")
-            ? "🎬"
-            : "📁"
-        }
-        ${esc(x.name)}
+        ${x.type.startsWith("video/") ? "🎬" : "📁"} ${esc(x.name)}
+        <br><small style="color:var(--muted)">${bytes(x.size)}</small>
       </span>
-
-      <button class="btn red">
-        Delete
-      </button>
+      <button class="btn red">Delete</button>
     `;
-
-    d.querySelector("button").onclick = () => {
-      items.splice(i, 1);
-      save();
+    d.querySelector("button").onclick = async () => {
+      await deleteItem(x.id);
+      items = items.filter(it => it.id !== x.id);
       dashboard();
     };
-
     list.appendChild(d);
   });
 
+  document.querySelector("#up").onclick = async () => {
+    let f = document.querySelector("#file").files[0];
+    let k = document.querySelector("#kind").value;
+    let msg = document.querySelector("#msg");
+    let prog = document.querySelector("#progress");
+    let bar = prog.querySelector(".bar");
 
-  document.querySelector("#up").onclick = () => {
-    let f =
-      document.querySelector("#file").files[0];
+    if (!f) return msg.textContent = "Select a file.";
+    if (k === "video" && !f.type.startsWith("video/"))
+      return msg.textContent = "Please select a video.";
+    if (k === "file" && f.type.startsWith("video/"))
+      return msg.textContent = "For videos, select Video.";
 
-    let k =
-      document.querySelector("#kind").value;
+    try {
+      msg.textContent = "Uploading...";
+      prog.style.display = "block";
+      bar.style.width = "30%";
 
-    let msg =
-      document.querySelector("#msg");
-
-
-    if (!f)
-      return msg.textContent =
-        "Select a file.";
-
-
-    if (
-      k === "video" &&
-      !f.type.startsWith("video/")
-    )
-      return msg.textContent =
-        "Please select a video.";
-
-
-    if (
-      k === "file" &&
-      f.type.startsWith("video/")
-    )
-      return msg.textContent =
-        "For videos, select Video.";
-
-
-    let r = new FileReader();
-
-
-    r.onload = () => {
-      items.unshift({
+      // Blob হিসেবে সরাসরি save — no base64, no memory blow-up
+      const item = {
+        id: Date.now() + "_" + Math.random().toString(36).slice(2),
         name: f.name,
-        type: f.type,
+        type: f.type || "application/octet-stream",
         size: f.size,
-        data: r.result
-      });
+        created: Date.now(),
+        blob: f   // ← File object directly (Blob subclass)
+      };
 
-      try {
-        save();
+      bar.style.width = "70%";
+      await addItem(item);
+
+      items.unshift(item);
+      bar.style.width = "100%";
+      msg.textContent = "✅ Uploaded successfully!";
+
+      setTimeout(() => {
+        prog.style.display = "none";
+        bar.style.width = "0%";
         dashboard();
-      } catch (e) {
-        msg.textContent =
-          "Browser storage is full. Try a smaller file/video.";
-      }
-    };
+      }, 700);
 
-
-    r.readAsDataURL(f);
+    } catch (e) {
+      console.error(e);
+      msg.textContent = "❌ Upload failed: " + e.message;
+      prog.style.display = "none";
+    }
   };
 }
 
-
-function save() {
-  localStorage.setItem(
-    "badhanItems",
-    JSON.stringify(items)
-  );
-}
-
-
-function downloadData(data, name) {
-  let a = document.createElement("a");
-
-  a.href = data;
+/* ============================================================
+   Download — Blob থেকে
+   ============================================================ */
+function downloadBlob(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
   a.download = name;
-
   document.body.appendChild(a);
-
   a.click();
-
   a.remove();
+  // URL revoke একটু পরে (download শুরু হওয়ার পর)
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
 }
-
 
 function bytes(n) {
-  return n < 1024
-    ? n + " B"
-    : n < 1048576
-      ? (n / 1024).toFixed(1) + " KB"
-      : (n / 1048576).toFixed(1) + " MB";
+  if (!n && n !== 0) return "0 B";
+  return n < 1024 ? n + " B"
+    : n < 1048576 ? (n / 1024).toFixed(1) + " KB"
+    : n < 1073741824 ? (n / 1048576).toFixed(1) + " MB"
+    : (n / 1073741824).toFixed(2) + " GB";
 }
 
-
-page("home");
-    
-  </script>
-
+/* ============================================================
+   Init
+   ============================================================ */
+(async function init() {
+  try {
+    await openDB();
+    items = await getAllItems();
+    items.sort((a, b) => (b.created || 0) - (a.created || 0));
+    page("home");
+  } catch (e) {
+    console.error("DB init failed:", e);
+    app.innerHTML = `<div class="card"><h1>❌ Database error</h1><p>${esc(e.message)}</p></div>`;
+  }
+})();
+</script>
 </body>
-
 </html>
