@@ -1,0 +1,2461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Badhan Fire Hack</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #e8fbf4;
+      --card: #f4fffb;
+      --text: #123c3a;
+      --muted: #527876;
+      --border: #b9e8dc;
+      --accent: #43c6b5;
+      --accent2: #69c9f5;
+      --hover: #d7f6ef;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg), #e5f7ff);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    body.dark {
+      --bg: #0b2425;
+      --card: #123334;
+      --text: #eaffff;
+      --muted: #a5cecc;
+      --border: #28615f;
+      --accent: #45cdb9;
+      --accent2: #61c9f4;
+      --hover: #194847;
+    }
+
+    header {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 15px;
+      background: linear-gradient(90deg, #d9f8ed, #dff4ff);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    body.dark header {
+      background: linear-gradient(90deg, #123d3b, #123b4c);
+    }
+
+    header b {
+      white-space: nowrap;
+    }
+
+    header button,
+    #side button {
+      border: 0;
+      background: transparent;
+      color: inherit;
+      padding: 12px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    #search {
+      flex: 1;
+      max-width: 650px;
+      padding: 11px 15px;
+      border-radius: 25px;
+      border: 1px solid var(--border);
+      background: #f1fffb;
+      color: var(--text);
+      outline: 0;
+    }
+
+    body.dark #search {
+      background: #173f40;
+    }
+
+    #side {
+      position: fixed;
+      top: 64px;
+      bottom: 0;
+      width: 230px;
+      padding: 15px;
+      background: linear-gradient(180deg, #e0faf1, #e1f5ff);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      overflow-y: auto;
+      z-index: 4;
+    }
+
+    body.dark #side {
+      background: linear-gradient(180deg, #123b39, #123746);
+    }
+
+    #side a,
+    #side button {
+      text-decoration: none;
+      color: inherit;
+      padding: 13px 12px;
+      border-radius: 9px;
+      text-align: left;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    #side a:hover,
+    #side button:hover {
+      background: var(--hover);
+    }
+
+    main {
+      margin-left: 230px;
+      padding: 22px;
+    }
+
+    .card,
+    .card1,
+    .card2,
+    .card3 {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 5px 18px rgba(50, 150, 150, .08);
+      transition: box-shadow .2s;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      margin-bottom: 20px;
+    }
+
+    .card:hover,
+    .card1:hover,
+    .card2:hover,
+    .card3:hover {
+      box-shadow: 10px 10px 20px rgba(0, 0, 0, .25);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .media video {
+      width: 100%;
+      max-height: 320px;
+      background: #06191b;
+      border-radius: 9px;
+    }
+
+    .name {
+      font-weight: bold;
+      margin: 10px 0;
+      word-break: break-word;
+    }
+
+    .btn,
+    .btn1,
+    .btn2,
+    .btn3 {
+      padding: 10px 15px;
+      border: 0;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+      margin-top: 8px;
+    }
+
+    .btn:hover,
+    .btn1:hover,
+    .btn2:hover,
+    .btn3:hover {
+      filter: brightness(1.1);
+    }
+
+    .btn.red {
+      background: linear-gradient(135deg, #e57373, #c62828);
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 11px 12px;
+      margin: 7px 0;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #f1fffb;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    body.dark input,
+    body.dark select {
+      background: #173f40;
+    }
+
+    .avatar {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+    }
+
+    .admin-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-bottom: 1px solid var(--border);
+      word-break: break-word;
+    }
+
+    .admin-row:last-child {
+      border-bottom: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: var(--text);
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    .muted {
+      text-align: center;
+      background: linear-gradient(
+        to left,
+        #e57373,
+        #651fff,
+        #e91e63,
+        #9c27b0
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 22px;
+    }
+
+    #hm-btn {
+      text-align: center;
+    }
+
+    .BRtitle {
+      text-align: center;
+      background: linear-gradient(
+        to right,
+        #9c27b0,
+        lightblue,
+        hotpink,
+        #651fff
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 45px;
+      margin: 15px 20px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin: 15px 0;
+    }
+
+    .stat-box {
+      background: linear-gradient(
+        135deg,
+        var(--accent),
+        var(--accent2)
+      );
+      color: white;
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .stat-box .num {
+      font-size: 28px;
+      font-weight: bold;
+      display: block;
+    }
+
+    .stat-box .lbl {
+      font-size: 13px;
+      opacity: .9;
+    }
+
+    .history-item {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+      word-break: break-word;
+    }
+
+    .history-item:last-child {
+      border-bottom: 0;
+    }
+
+    .history-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .history-body {
+      flex: 1;
+    }
+
+    .history-time {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .history-action {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: bold;
+      margin-right: 6px;
+    }
+
+    .act-visit {
+      background: #4caf50;
+      color: white;
+    }
+
+    .act-view {
+      background: #2196f3;
+      color: white;
+    }
+
+    .act-download {
+      background: #ff9800;
+      color: white;
+    }
+
+    .act-upload {
+      background: #9c27b0;
+      color: white;
+    }
+
+    .act-delete {
+      background: #f44336;
+      color: white;
+    }
+
+    .act-login {
+      background: #607d8b;
+      color: white;
+    }
+
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+
+    .tab-bar button {
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--card);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .tab-bar button.active {
+      background: linear-gradient(
+        135deg,
+        var(--accent),
+        var(--accent2)
+      );
+      color: white;
+      border-color: transparent;
+    }
+
+    #progress {
+      height: 8px;
+      background: var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 10px;
+      display: none;
+    }
+
+    #progress .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(
+        90deg,
+        var(--accent),
+        var(--accent2)
+      );
+      transition: width .15s;
+    }
+
+    @media (max-width: 700px) {
+      header b {
+        display: none;
+      }
+
+      #side {
+        transform: translateX(-100%);
+        transition: .2s;
+        width: 215px;
+      }
+
+      #side.open {
+        transform: translateX(0);
+      }
+
+      main {
+        margin-left: 0;
+        padding: 15px;
+      }
+
+      .BRtitle {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <header>
+    <button id="menu">☰</button>
+
+    <b>BADHAN MOOD</b>
+
+    <input
+      id="search"
+      placeholder="Search videos and files"
+    >
+
+    <button id="theme">🌙</button>
+  </header>
+
+
+  <h1 class="BRtitle">
+    BADHAN HACK MOOD
+  </h1>
+
+
+  <aside id="side">
+
+    <button data-p="home">⌂ Home</button>
+
+    <button data-p="videos">🎬 Videos</button>
+
+    <button data-p="files">📁 Files</button>
+
+    <button data-p="history">🕒 History</button>
+
+    <button data-p="profile">👤 Profile</button>
+
+    <button data-p="settings">⚙ Settings</button>
+
+    <a
+      target="_blank"
+      rel="noopener"
+      href="https://www.instagram.com/badhan50012?stkn=YXozYWtxcGNiYXN2"
+    >
+      ◎ Instagram Account
+    </a>
+
+    <a
+      target="_blank"
+      rel="noopener"
+      href="https://www.facebook.com/share/1C65RPeyiM/"
+    >
+      f Facebook Follow
+    </a>
+
+    <button data-p="admin">
+      🔒 Admin Panel
+    </button>
+
+  </aside>
+
+
+  <main id="app"></main>
+
+
+  <script>
+    /* ============================================================
+       IndexedDB — Items + Activity History
+    ============================================================ */
+
+    const DB_NAME = "badhanDB";
+    const DB_VERSION = 2;
+    const STORE = "items";
+    const HIST = "history";
+
+    let db = null;
+
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+
+        const req = indexedDB.open(
+          DB_NAME,
+          DB_VERSION
+        );
+
+        req.onupgradeneeded = e => {
+
+          const d = e.target.result;
+
+          if (!d.objectStoreNames.contains(STORE)) {
+
+            const store =
+              d.createObjectStore(STORE, {
+                keyPath: "id"
+              });
+
+            store.createIndex(
+              "type",
+              "type",
+              { unique: false }
+            );
+
+            store.createIndex(
+              "created",
+              "created",
+              { unique: false }
+            );
+          }
+
+
+          if (!d.objectStoreNames.contains(HIST)) {
+
+            const h =
+              d.createObjectStore(HIST, {
+                keyPath: "id"
+              });
+
+            h.createIndex(
+              "time",
+              "time",
+              { unique: false }
+            );
+
+            h.createIndex(
+              "action",
+              "action",
+              { unique: false }
+            );
+          }
+        };
+
+
+        req.onsuccess = () => {
+          db = req.result;
+          resolve(db);
+        };
+
+
+        req.onerror = () =>
+          reject(req.error);
+      });
+    }
+
+
+    function tx(store, mode) {
+      return db
+        .transaction(store, mode)
+        .objectStore(store);
+    }
+
+
+    function addItem(item) {
+      return new Promise((res, rej) => {
+
+        const r =
+          tx(STORE, "readwrite").put(item);
+
+        r.onsuccess = () =>
+          res(r.result);
+
+        r.onerror = () =>
+          rej(r.error);
+      });
+    }
+
+
+    function getAllItems() {
+      return new Promise((res, rej) => {
+
+        const r =
+          tx(STORE, "readonly").getAll();
+
+        r.onsuccess = () =>
+          res(r.result || []);
+
+        r.onerror = () =>
+          rej(r.error);
+      });
+    }
+
+
+    function deleteItem(id) {
+      return new Promise((res, rej) => {
+
+        const r =
+          tx(STORE, "readwrite").delete(id);
+
+        r.onsuccess = () =>
+          res();
+
+        r.onerror = () =>
+          rej(r.error);
+      });
+    }
+
+
+    function clearAllItems() {
+      return new Promise((res, rej) => {
+
+        const r =
+          tx(STORE, "readwrite").clear();
+
+        r.onsuccess = () =>
+          res();
+
+        r.onerror = () =>
+          rej(r.error);
+      });
+    }
+
+
+    /* ============================================================
+       History
+    ============================================================ */
+
+    function logHistory(
+      action,
+      target = "",
+      extra = {}
+    ) {
+
+      const entry = {
+
+        id:
+          Date.now() +
+          "_" +
+          Math.random()
+            .toString(36)
+            .slice(2),
+
+        time: Date.now(),
+
+        action,
+
+        target,
+
+        session: sessionId,
+
+        userAgent:
+          navigator.userAgent,
+
+        device:
+          /Mobi|Android/i.test(
+            navigator.userAgent
+          )
+            ? "Mobile"
+            : "Desktop",
+
+        ...extra
+      };
+
+
+      return new Promise((res, rej) => {
+
+        const r =
+          tx(HIST, "readwrite")
+            .put(entry);
+
+        r.onsuccess = () =>
+          res(entry);
+
+        r.onerror = () =>
+          rej(r.error);
+      });
+    }
+
+
+    function getAllHistory() {
+
+      return new Promise((res, rej) => {
+
+        const r =
+          tx(HIST, "readonly")
+            .getAll();
+
+        r.onsuccess = () => {
+
+          res(
+            (r.result || [])
+              .sort(
+                (a, b) =>
+                  b.time - a.time
+              )
+          );
+        };
+
+        r.onerror = () =>
+          rej(r.error);
+      });
+    }
+
+
+    function clearHistory() {
+
+      return new Promise((res, rej) => {
+
+        const r =
+          tx(HIST, "readwrite")
+            .clear();
+
+        r.onsuccess = () =>
+          res();
+
+        r.onerror = () =>
+          rej(r.error);
+      });
+    }
+
+
+    function deleteHistoryItem(id) {
+
+      return new Promise((res, rej) => {
+
+        const r =
+          tx(HIST, "readwrite")
+            .delete(id);
+
+        r.onsuccess = () =>
+          res();
+
+        r.onerror = () =>
+          rej(r.error);
+      });
+    }
+
+
+    /* ============================================================
+       Session ID
+    ============================================================ */
+
+    let sessionId =
+      sessionStorage.getItem(
+        "sessionId"
+      );
+
+
+    if (!sessionId) {
+
+      sessionId =
+        "S_" +
+        Date.now().toString(36) +
+        "_" +
+        Math.random()
+          .toString(36)
+          .slice(2, 8);
+
+      sessionStorage.setItem(
+        "sessionId",
+        sessionId
+      );
+    }
+
+
+    /* ============================================================
+       App state
+    ============================================================ */
+
+    const app =
+      document.querySelector("#app");
+
+    const side =
+      document.querySelector("#side");
+
+    const search =
+      document.querySelector("#search");
+
+    const theme =
+      document.querySelector("#theme");
+
+
+    let items = [];
+    let history = [];
+    let currentPage = "home";
+
+
+    /* ============================================================
+       Theme
+    ============================================================ */
+
+    if (
+      localStorage.theme === "dark"
+    ) {
+
+      document.body.classList.add(
+        "dark"
+      );
+
+      theme.textContent = "☀️";
+    }
+
+
+    document.querySelector(
+      "#menu"
+    ).onclick = () =>
+      side.classList.toggle(
+        "open"
+      );
+
+
+    theme.onclick = () => {
+
+      document.body.classList.toggle(
+        "dark"
+      );
+
+      const d =
+        document.body.classList.contains(
+          "dark"
+        );
+
+      localStorage.theme =
+        d ? "dark" : "light";
+
+      theme.textContent =
+        d ? "☀️" : "🌙";
+    };
+
+
+    /* ============================================================
+       Navigation
+    ============================================================ */
+
+    document
+      .querySelectorAll("[data-p]")
+      .forEach(x => {
+
+        x.onclick = () =>
+          page(x.dataset.p);
+      });
+
+
+    search.oninput = () => {
+
+      if (
+        currentPage === "videos" ||
+        currentPage === "files"
+      ) {
+
+        renderMediaPage(
+          currentPage,
+          search.value
+        );
+      }
+    };
+
+
+    async function page(p) {
+
+      side.classList.remove(
+        "open"
+      );
+
+      currentPage = p;
+
+      search.value = "";
+
+
+      if (p !== "home") {
+
+        await logHistory(
+          "visit",
+          "Page: " + p
+        );
+
+        history =
+          await getAllHistory();
+      }
+
+
+      if (p === "home")
+        home();
+
+      else if (
+        p === "videos" ||
+        p === "files"
+      )
+        renderMediaPage(p);
+
+      else if (p === "history")
+        historyPage();
+
+      else if (p === "profile")
+        profile();
+
+      else if (p === "settings")
+        settings();
+
+      else if (p === "admin")
+        admin();
+    }
+
+
+    /* ============================================================
+       Escape HTML
+    ============================================================ */
+
+    function esc(x) {
+
+      return String(
+        x ?? ""
+      ).replace(
+        /[&<>"']/g,
+        c =>
+          ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+          }[c])
+      );
+    }
+
+
+    /* ============================================================
+       Time
+    ============================================================ */
+
+    function timeAgo(t) {
+
+      const s =
+        Math.floor(
+          (Date.now() - t) / 1000
+        );
+
+
+      if (s < 60)
+        return s + "s ago";
+
+      if (s < 3600)
+        return (
+          Math.floor(s / 60) +
+          "m ago"
+        );
+
+      if (s < 86400)
+        return (
+          Math.floor(s / 3600) +
+          "h ago"
+        );
+
+      return (
+        Math.floor(s / 86400) +
+        "d ago"
+      );
+    }
+
+
+    function fullTime(t) {
+
+      const d = new Date(t);
+
+      return d.toLocaleString();
+    }
+
+
+    /* ============================================================
+       Media Card
+    ============================================================ */
+
+    function card(x) {
+
+      const c =
+        document.createElement(
+          "div"
+        );
+
+      c.className =
+        "card media";
+
+
+      if (
+        x.type.startsWith(
+          "video/"
+        )
+      ) {
+
+        const url =
+          URL.createObjectURL(
+            x.blob
+          );
+
+
+        c.innerHTML = `
+          <video
+            controls
+            preload="metadata"
+            src="${url}">
+          </video>
+
+          <div class="name">
+            ${esc(x.name)}
+          </div>
+
+          <p
+            class="muted"
+            style="font-size:13px">
+            ${bytes(x.size)}
+          </p>
+        `;
+
+
+        const v =
+          c.querySelector(
+            "video"
+          );
+
+
+        v.addEventListener(
+          "play",
+          async () => {
+
+            await logHistory(
+              "view",
+              x.name,
+              {
+                kind: "video"
+              }
+            );
+
+          },
+          { once: true }
+        );
+
+
+      } else {
+
+        c.innerHTML = `
+          <div
+            style="
+              font-size:50px;
+              text-align:center
+            ">
+            📄
+          </div>
+
+          <div class="name">
+            ${esc(x.name)}
+          </div>
+
+          <p
+            class="muted"
+            style="font-size:13px">
+            ${bytes(x.size)}
+          </p>
+        `;
+      }
+
+
+      const b =
+        document.createElement(
+          "button"
+        );
+
+      b.className = "btn";
+
+      b.textContent =
+        "⬇ Download";
+
+
+      b.onclick = async () => {
+
+        await logHistory(
+          "download",
+          x.name,
+          {
+            kind:
+              x.type.startsWith(
+                "video/"
+              )
+                ? "video"
+                : "file"
+          }
+        );
+
+        downloadBlob(
+          x.blob,
+          x.name
+        );
+      };
+
+
+      c.appendChild(b);
+
+      return c;
+    }
+
+
+    /* ============================================================
+       Videos / Files
+    ============================================================ */
+
+    function renderMediaPage(
+      type,
+      q = ""
+    ) {
+
+      const isVideo =
+        type === "videos";
+
+      const title =
+        isVideo
+          ? "Videos"
+          : "Files";
+
+      const icon =
+        isVideo
+          ? "🎬"
+          : "📁";
+
+
+      const a =
+        items
+          .filter(
+            x =>
+              isVideo
+                ? x.type.startsWith(
+                    "video/"
+                  )
+                : !x.type.startsWith(
+                    "video/"
+                  )
+          )
+          .filter(
+            x =>
+              x.name
+                .toLowerCase()
+                .includes(
+                  q.toLowerCase()
+                )
+          );
+
+
+      app.innerHTML = `
+        <div class="card">
+
+          <h1>
+            ${icon} ${title}
+          </h1>
+
+          <p class="muted">
+            ${
+              isVideo
+                ? "All uploaded videos are shown here."
+                : "All uploaded files are shown here."
+            }
+          </p>
+
+        </div>
+
+        <div
+          id="grid"
+          class="grid">
+        </div>
+      `;
+
+
+      const g =
+        document.querySelector(
+          "#grid"
+        );
+
+
+      if (!a.length) {
+
+        g.innerHTML = `
+          <div class="card">
+            No ${title.toLowerCase()}
+            found.
+          </div>
+        `;
+
+        return;
+      }
+
+
+      a.forEach(x =>
+        g.appendChild(
+          card(x)
+        )
+      );
+    }
+
+
+    /* ============================================================
+       Home
+    ============================================================ */
+
+    function home() {
+
+      const videos =
+        items.filter(
+          x =>
+            x.type.startsWith(
+              "video/"
+            )
+        ).length;
+
+
+      const files =
+        items.length - videos;
+
+
+      const totalSize =
+        items.reduce(
+          (s, x) =>
+            s + (x.size || 0),
+          0
+        );
+
+
+      const visits =
+        history.filter(
+          h =>
+            h.action === "visit"
+        ).length;
+
+
+      const downloads =
+        history.filter(
+          h =>
+            h.action === "download"
+        ).length;
+
+
+      app.innerHTML = `
+        <div class="card1">
+
+          <h1 id="hm-btn">
+            🏠 Home
+          </h1>
+
+          <p class="muted">
+            WELCOME TO BR HACKER SITE
+          </p>
+
+          <p style="text-align:center">
+            Storage:
+            <b>
+              ${bytes(totalSize)}
+            </b>
+          </p>
+
+        </div>
+
+
+        <div class="stat-grid">
+
+          <div class="stat-box">
+            <span class="num">
+              ${visits}
+            </span>
+            <span class="lbl">
+              👁 Visits
+            </span>
+          </div>
+
+
+          <div class="stat-box">
+            <span class="num">
+              ${downloads}
+            </span>
+            <span class="lbl">
+              ⬇ Downloads
+            </span>
+          </div>
+
+
+          <div class="stat-box">
+            <span class="num">
+              ${videos}
+            </span>
+            <span class="lbl">
+              🎬 Videos
+            </span>
+          </div>
+
+
+          <div class="stat-box">
+            <span class="num">
+              ${files}
+            </span>
+            <span class="lbl">
+              📁 Files
+            </span>
+          </div>
+
+        </div>
+
+
+        <div class="grid">
+
+          <div class="card2">
+
+            <h2>
+              🎬 Videos
+            </h2>
+
+            <p>
+              ${videos} video(s)
+            </p>
+
+            <button
+              class="btn1"
+              onclick="page('videos')">
+              Open Videos
+            </button>
+
+          </div>
+
+
+          <div class="card3">
+
+            <h2>
+              📁 Files
+            </h2>
+
+            <p>
+              ${files} file(s)
+            </p>
+
+            <button
+              class="btn2"
+              onclick="page('files')">
+              Open Files
+            </button>
+
+          </div>
+
+
+          <div class="card3">
+
+            <h2>
+              🕒 History
+            </h2>
+
+            <p>
+              ${history.length}
+              activity record(s)
+            </p>
+
+            <button
+              class="btn3"
+              onclick="page('history')">
+              View History
+            </button>
+
+          </div>
+
+        </div>
+      `;
+    }
+
+
+    /* ============================================================
+       History Page
+    ============================================================ */
+
+    async function historyPage(
+      filter = "all"
+    ) {
+
+      history =
+        await getAllHistory();
+
+
+      const filtered =
+        filter === "all"
+          ? history
+          : history.filter(
+              h =>
+                h.action === filter
+            );
+
+
+      const actionIcon = {
+
+        visit: "👁",
+        view: "▶️",
+        download: "⬇",
+        upload: "⬆",
+        delete: "🗑",
+        login: "🔓"
+      };
+
+
+      app.innerHTML = `
+        <div class="card">
+
+          <h1>
+            🕒 Activity History
+          </h1>
+
+          <p class="muted">
+            All your activity is shown here
+          </p>
+
+
+          <div class="stat-grid">
+
+            <div class="stat-box">
+              <span class="num">
+                ${
+                  history.filter(
+                    h =>
+                      h.action === "visit"
+                  ).length
+                }
+              </span>
+
+              <span class="lbl">
+                Visits
+              </span>
+            </div>
+
+
+            <div class="stat-box">
+              <span class="num">
+                ${
+                  history.filter(
+                    h =>
+                      h.action === "view"
+                  ).length
+                }
+              </span>
+
+              <span class="lbl">
+                Views
+              </span>
+            </div>
+
+
+            <div class="stat-box">
+              <span class="num">
+                ${
+                  history.filter(
+                    h =>
+                      h.action === "download"
+                  ).length
+                }
+              </span>
+
+              <span class="lbl">
+                Downloads
+              </span>
+            </div>
+
+
+            <div class="stat-box">
+              <span class="num">
+                ${
+                  history.filter(
+                    h =>
+                      h.action === "upload"
+                  ).length
+                }
+              </span>
+
+              <span class="lbl">
+                Uploads
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="tab-bar">
+
+            ${
+              [
+                "all",
+                "visit",
+                "view",
+                "download",
+                "upload",
+                "login"
+              ]
+                .map(
+                  f =>
+                    `
+                    <button
+                      data-f="${f}"
+                      class="${
+                        filter === f
+                          ? "active"
+                          : ""
+                      }">
+
+                      ${
+                        f
+                          .charAt(0)
+                          .toUpperCase() +
+                        f.slice(1)
+                      }
+
+                    </button>
+                    `
+                )
+                .join("")
+            }
+
+          </div>
+
+
+          <button
+            id="clrHist"
+            class="btn red"
+            style="margin-bottom:15px">
+
+            🗑 Clear History
+
+          </button>
+
+
+          <div id="hList"></div>
+
+        </div>
+      `;
+
+
+      document
+        .querySelectorAll(
+          "[data-f]"
+        )
+        .forEach(b => {
+
+          b.onclick = () =>
+            historyPage(
+              b.dataset.f
+            );
+        });
+
+
+      document.querySelector(
+        "#clrHist"
+      ).onclick = async () => {
+
+        if (
+          !confirm(
+            "Clear all history?"
+          )
+        )
+          return;
+
+        await clearHistory();
+
+        history = [];
+
+        historyPage();
+      };
+
+
+      const list =
+        document.querySelector(
+          "#hList"
+        );
+
+
+      if (!filtered.length) {
+
+        list.innerHTML =
+          "<p class='muted'>No activity found.</p>";
+
+        return;
+      }
+
+
+      filtered
+        .slice(0, 200)
+        .forEach(h => {
+
+          const d =
+            document.createElement(
+              "div"
+            );
+
+          d.className =
+            "history-item";
+
+
+          d.innerHTML = `
+            <div class="history-icon">
+              ${
+                actionIcon[h.action]
+                || "•"
+              }
+            </div>
+
+            <div class="history-body">
+
+              <span
+                class="
+                  history-action
+                  act-${h.action}
+                ">
+                ${h.action.toUpperCase()}
+              </span>
+
+              <b>
+                ${esc(
+                  h.target || "—"
+                )}
+              </b>
+
+              <div
+                class="history-time">
+
+                ${fullTime(h.time)}
+                ·
+                ${timeAgo(h.time)}
+                ·
+                ${h.device}
+
+              </div>
+
+            </div>
+
+
+            <button
+              class="btn red"
+              style="
+                padding:5px 10px;
+                font-size:12px
+              ">
+              ✕
+            </button>
+          `;
+
+
+          d.querySelector(
+            "button"
+          ).onclick = async () => {
+
+            await deleteHistoryItem(
+              h.id
+            );
+
+            historyPage(
+              filter
+            );
+          };
+
+
+          list.appendChild(d);
+        });
+    }
+
+
+    /* ============================================================
+       Profile
+    ============================================================ */
+
+    function profile() {
+
+      const p =
+        localStorage.profile ||
+        "";
+
+
+      app.innerHTML = `
+        <div class="card">
+
+          <h1>
+            👤 Profile
+          </h1>
+
+          ${
+            p
+              ? `
+                <img
+                  class="avatar"
+                  src="${p}">
+              `
+              : `
+                <div
+                  style="
+                    font-size:80px">
+                  👤
+                </div>
+              `
+          }
+
+
+          <h3>
+            Profile picture
+          </h3>
+
+
+          <input
+            id="pic"
+            type="file"
+            accept="image/*">
+
+        </div>
+      `;
+
+
+      document.querySelector(
+        "#pic"
+      ).onchange = e => {
+
+        const f =
+          e.target.files[0];
+
+        if (!f)
+          return;
+
+
+        const r =
+          new FileReader();
+
+
+        r.onload = () => {
+
+          localStorage.profile =
+            r.result;
+
+          profile();
+        };
+
+
+        r.readAsDataURL(f);
+      };
+    }
+
+
+    /* ============================================================
+       Settings
+    ============================================================ */
+
+    function settings() {
+
+      const totalSize =
+        items.reduce(
+          (s, x) =>
+            s + (x.size || 0),
+          0
+        );
+
+
+      app.innerHTML = `
+        <div class="card">
+
+          <h1>
+            ⚙ Settings
+          </h1>
+
+
+          <button
+            id="m"
+            class="btn">
+
+            🌙 Dark / ☀️ Light Mode
+
+          </button>
+
+
+          <h3>
+            Storage info
+          </h3>
+
+
+          <p>
+            Total items:
+            <b>
+              ${items.length}
+            </b>
+          </p>
+
+
+          <p>
+            Total size:
+            <b>
+              ${bytes(totalSize)}
+            </b>
+          </p>
+
+
+          <p>
+            History records:
+            <b>
+              ${history.length}
+            </b>
+          </p>
+
+
+          <button
+            id="clearAll"
+            class="btn red">
+
+            🗑 Clear All Uploads
+
+          </button>
+
+
+          <h3>
+            Language
+          </h3>
+
+
+          <select id="lang">
+
+            <option value="en">
+              English
+            </option>
+
+            <option value="bn">
+              বাংলা
+            </option>
+
+            <option value="hi">
+              हिन्दी
+            </option>
+
+          </select>
+
+        </div>
+      `;
+
+
+      document.querySelector(
+        "#m"
+      ).onclick = () =>
+        theme.click();
+
+
+      document.querySelector(
+        "#clearAll"
+      ).onclick = async () => {
+
+        if (
+          !confirm(
+            "Delete all uploaded files?"
+          )
+        )
+          return;
+
+
+        await clearAllItems();
+
+        items = [];
+
+        await logHistory(
+          "delete",
+          "All uploads"
+        );
+
+        history =
+          await getAllHistory();
+
+        settings();
+      };
+
+
+      const l =
+        document.querySelector(
+          "#lang"
+        );
+
+
+      l.value =
+        localStorage.lang ||
+        "en";
+
+
+      l.onchange = () => {
+
+        localStorage.lang =
+          l.value;
+      };
+    }
+
+
+    /* ============================================================
+       Admin Login
+    ============================================================ */
+
+    function admin() {
+
+      app.innerHTML = `
+        <div class="card">
+
+          <h1>
+            🔒 Admin Panel
+          </h1>
+
+
+          <input
+            id="pass"
+            type="password"
+            placeholder="Admin password">
+
+
+          <button
+            id="unlock"
+            class="btn">
+
+            Unlock
+
+          </button>
+
+
+          <p id="msg"></p>
+
+        </div>
+      `;
+
+
+      document.querySelector(
+        "#unlock"
+      ).onclick = async () => {
+
+        const pass =
+          document.querySelector(
+            "#pass"
+          ).value;
+
+
+        if (
+          pass === "DOLA+BADHAN"
+        ) {
+
+          await logHistory(
+            "login",
+            "Admin Panel"
+          );
+
+          history =
+            await getAllHistory();
+
+          dashboard();
+
+        } else {
+
+          document.querySelector(
+            "#msg"
+          ).textContent =
+            "Wrong password.";
+        }
+      };
+    }
+
+
+    /* ============================================================
+       Admin Dashboard
+    ============================================================ */
+
+    function dashboard() {
+
+      app.innerHTML = `
+        <div class="card">
+
+          <h1>
+            🔒 Admin Panel
+          </h1>
+
+
+          <h2>
+            Upload Video / File
+          </h2>
+
+
+          <select id="kind">
+
+            <option value="video">
+              Video
+            </option>
+
+            <option value="file">
+              File
+            </option>
+
+          </select>
+
+
+          <input
+            id="file"
+            type="file">
+
+
+          <button
+            id="up"
+            class="btn">
+
+            Upload
+
+          </button>
+
+
+          <div
+            id="progress">
+
+            <div
+              class="bar">
+            </div>
+
+          </div>
+
+
+          <p id="msg"></p>
+
+        </div>
+
+
+        <div class="card">
+
+          <h2>
+            Manage Uploads
+          </h2>
+
+          <div id="list"></div>
+
+        </div>
+      `;
+
+
+      const list =
+        document.querySelector(
+          "#list"
+        );
+
+
+      if (!items.length) {
+
+        list.innerHTML =
+          "<p class='muted'>No uploads yet.</p>";
+      }
+
+
+      items.forEach(
+        (x, i) => {
+
+          const d =
+            document.createElement(
+              "div"
+            );
+
+
+          d.className =
+            "admin-row";
+
+
+          d.innerHTML = `
+            <span
+              style="flex:1">
+
+              ${
+                x.type.startsWith(
+                  "video/"
+                )
+                  ? "🎬"
+                  : "📁"
+              }
+
+              ${esc(x.name)}
+
+            </span>
+
+
+            <button
+              class="btn red">
+
+              Delete
+
+            </button>
+          `;
+
+
+          d.querySelector(
+            "button"
+          ).onclick = async () => {
+
+            await deleteItem(
+              x.id
+            );
+
+
+            await logHistory(
+              "delete",
+              x.name
+            );
+
+
+            items =
+              await getAllItems();
+
+            history =
+              await getAllHistory();
+
+            dashboard();
+          };
+
+
+          list.appendChild(d);
+        }
+      );
+
+
+      document.querySelector(
+        "#up"
+      ).onclick = async () => {
+
+        const f =
+          document.querySelector(
+            "#file"
+          ).files[0];
+
+
+        const k =
+          document.querySelector(
+            "#kind"
+          ).value;
+
+
+        const msg =
+          document.querySelector(
+            "#msg"
+          );
+
+
+        const progress =
+          document.querySelector(
+            "#progress"
+          );
+
+
+        const bar =
+          document.querySelector(
+            "#progress .bar"
+          );
+
+
+        if (!f) {
+
+          msg.textContent =
+            "Select a file.";
+
+          return;
+        }
+
+
+        if (
+          k === "video" &&
+          !f.type.startsWith(
+            "video/"
+          )
+        ) {
+
+          msg.textContent =
+            "Please select a video.";
+
+          return;
+        }
+
+
+        if (
+          k === "file" &&
+          f.type.startsWith(
+            "video/"
+          )
+        ) {
+
+          msg.textContent =
+            "For videos, select Video.";
+
+          return;
+        }
+
+
+        progress.style.display =
+          "block";
+
+
+        bar.style.width =
+          "0%";
+
+
+        const reader =
+          new FileReader();
+
+
+        reader.onprogress =
+          e => {
+
+            if (e.lengthComputable) {
+
+              const percent =
+                (e.loaded /
+                  e.total) *
+                100;
+
+              bar.style.width =
+                percent + "%";
+            }
+          };
+
+
+        reader.onload =
+          async () => {
+
+            try {
+
+              const blob =
+                new Blob(
+                  [f],
+                  {
+                    type:
+                      f.type
+                  }
+                );
+
+
+              const item = {
+
+                id:
+                  Date.now() +
+                  "_" +
+                  Math.random()
+                    .toString(36)
+                    .slice(2),
+
+                name:
+                  f.name,
+
+                type:
+                  f.type ||
+                  "application/octet-stream",
+
+                size:
+                  f.size,
+
+                blob:
+
+                  blob,
+
+                created:
+                  Date.now()
+              };
+
+
+              await addItem(
+                item
+              );
+
+
+              await logHistory(
+                "upload",
+                f.name,
+                {
+                  kind:
+                    k
+                }
+              );
+
+
+              items =
+                await getAllItems();
+
+              history =
+                await getAllHistory();
+
+
+              dashboard();
+
+
+            } catch (e) {
+
+              msg.textContent =
+                "Upload failed. Browser storage may be full.";
+
+              progress.style.display =
+                "none";
+            }
+          };
+
+
+        reader.onerror =
+          () => {
+
+            msg.textContent =
+              "Could not read the file.";
+
+            progress.style.display =
+              "none";
+          };
+
+
+        reader.readAsArrayBuffer(
+          f
+        );
+      };
+    }
+
+
+    /* ============================================================
+       Download Blob
+    ============================================================ */
+
+    function downloadBlob(
+      blob,
+      name
+    ) {
+
+      const url =
+        URL.createObjectURL(
+          blob
+        );
+
+
+      const a =
+        document.createElement(
+          "a"
+        );
+
+
+      a.href = url;
+      a.download = name;
+
+
+      document.body.appendChild(
+        a
+      );
+
+
+      a.click();
+
+      a.remove();
+
+
+      setTimeout(
+        () =>
+          URL.revokeObjectURL(
+            url
+          ),
+        1000
+      );
+    }
+
+
+    /* ============================================================
+       File Size
+    ============================================================ */
+
+    function bytes(n) {
+
+      return n < 1024
+
+        ? n + " B"
+
+        : n < 1048576
+
+          ? (
+              n / 1024
+            ).toFixed(1) +
+            " KB"
+
+          : (
+              n / 1048576
+            ).toFixed(1) +
+            " MB";
+    }
+
+
+    /* ============================================================
+       Start App
+    ============================================================ */
+
+    async function startApp() {
+
+      try {
+
+        await openDB();
+
+        items =
+          await getAllItems();
+
+        history =
+          await getAllHistory();
+
+        home();
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+        app.innerHTML = `
+          <div class="card">
+
+            <h1>
+              ⚠️ Database Error
+            </h1>
+
+            <p>
+              IndexedDB could not be opened
+              in this browser.
+            </p>
+
+          </div>
+        `;
+      }
+    }
+
+
+    startApp();
+
+  </script>
+
+</body>
+
+</html>
