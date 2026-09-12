@@ -129,6 +129,49 @@ p{line-height:1.6}
   background:linear-gradient(90deg,var(--accent),var(--accent2));
   transition:width .15s;
 }
+
+/* === Analytics === */
+.stat-grid{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:12px; margin:15px 0;
+}
+.stat-box{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:white; padding:15px; border-radius:12px; text-align:center;
+}
+.stat-box .num{font-size:28px; font-weight:bold; display:block}
+.stat-box .lbl{font-size:13px; opacity:.9}
+
+.history-item{
+  display:flex; gap:10px; padding:10px; border-bottom:1px solid var(--border);
+  align-items:flex-start; word-break:break-word;
+}
+.history-item:last-child{border-bottom:0}
+.history-icon{font-size:20px; flex-shrink:0}
+.history-body{flex:1}
+.history-time{font-size:12px; color:var(--muted)}
+.history-action{
+  display:inline-block; padding:2px 8px; border-radius:6px;
+  font-size:11px; font-weight:bold; margin-right:6px;
+}
+.act-visit{background:#4caf50; color:white}
+.act-view{background:#2196f3; color:white}
+.act-download{background:#ff9800; color:white}
+.act-upload{background:#9c27b0; color:white}
+.act-delete{background:#f44336; color:white}
+.act-login{background:#607d8b; color:white}
+
+.tab-bar{
+  display:flex; gap:8px; flex-wrap:wrap; margin:15px 0;
+}
+.tab-bar button{
+  padding:8px 14px; border:1px solid var(--border); border-radius:20px;
+  background:var(--card); color:var(--text); cursor:pointer; font-size:14px;
+}
+.tab-bar button.active{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:white; border-color:transparent;
+}
 </style>
 </head>
 
@@ -147,6 +190,7 @@ p{line-height:1.6}
   <button data-p="home">⌂ Home</button>
   <button data-p="videos">🎬 Videos</button>
   <button data-p="files">📁 Files</button>
+  <button data-p="history">🕒 History</button>
   <button data-p="profile">👤 Profile</button>
   <button data-p="settings">⚙ Settings</button>
   <a target="_blank" rel="noopener" href="https://www.instagram.com/badhan50012?stkn=YXozYWtxcGNiYXN2">◎ Instagram Account</a>
@@ -158,11 +202,12 @@ p{line-height:1.6}
 
 <script>
 /* ============================================================
-   IndexedDB Setup — Unlimited Storage
+   IndexedDB — Items + Activity History
    ============================================================ */
 const DB_NAME = "badhanDB";
-const DB_VERSION = 1;
+const DB_VERSION = 2;               // ← Version bump (history store যোগ)
 const STORE = "items";
+const HIST = "history";
 let db = null;
 
 function openDB() {
@@ -176,6 +221,11 @@ function openDB() {
         store.createIndex("type", "type", { unique: false });
         store.createIndex("created", "created", { unique: false });
       }
+      if (!d.objectStoreNames.contains(HIST)) {
+        const h = d.createObjectStore(HIST, { keyPath: "id" });
+        h.createIndex("time", "time", { unique: false });
+        h.createIndex("action", "action", { unique: false });
+      }
     };
 
     req.onsuccess = () => { db = req.result; resolve(db); };
@@ -183,40 +233,61 @@ function openDB() {
   });
 }
 
-function addItem(item) {
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, "readwrite");
-    const req = tx.objectStore(STORE).put(item);
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
+function tx(store, mode) {
+  return db.transaction(store, mode).objectStore(store);
+}
+function addItem(item){return new Promise((res,rej)=>{const r=tx(STORE,"readwrite").put(item);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
+function getAllItems(){return new Promise((res,rej)=>{const r=tx(STORE,"readonly").getAll();r.onsuccess=()=>res(r.result||[]);r.onerror=()=>rej(r.error);});}
+function deleteItem(id){return new Promise((res,rej)=>{const r=tx(STORE,"readwrite").delete(id);r.onsuccess=()=>res();r.onerror=()=>rej(r.error);});}
+function clearAllItems(){return new Promise((res,rej)=>{const r=tx(STORE,"readwrite").clear();r.onsuccess=()=>res();r.onerror=()=>rej(r.error);});}
+
+/* === History helpers === */
+function logHistory(action, target = "", extra = {}) {
+  const entry = {
+    id: Date.now() + "_" + Math.random().toString(36).slice(2),
+    time: Date.now(),
+    action,                        // visit / view / download / upload / delete / login
+    target,                        // file name / page
+    session: sessionId,
+    userAgent: navigator.userAgent,
+    device: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+    ...extra
+  };
+  return new Promise((res, rej) => {
+    const r = tx(HIST, "readwrite").put(entry);
+    r.onsuccess = () => res(entry);
+    r.onerror = () => rej(r.error);
+  });
+}
+function getAllHistory(){
+  return new Promise((res, rej) => {
+    const r = tx(HIST, "readonly").getAll();
+    r.onsuccess = () => res((r.result || []).sort((a,b) => b.time - a.time));
+    r.onerror = () => rej(r.error);
+  });
+}
+function clearHistory(){
+  return new Promise((res, rej) => {
+    const r = tx(HIST, "readwrite").clear();
+    r.onsuccess = () => res();
+    r.onerror = () => rej(r.error);
+  });
+}
+function deleteHistoryItem(id){
+  return new Promise((res, rej) => {
+    const r = tx(HIST, "readwrite").delete(id);
+    r.onsuccess = () => res();
+    r.onerror = () => rej(r.error);
   });
 }
 
-function getAllItems() {
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, "readonly");
-    const req = tx.objectStore(STORE).getAll();
-    req.onsuccess = () => resolve(req.result || []);
-    req.onerror = () => reject(req.error);
-  });
-}
-
-function deleteItem(id) {
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, "readwrite");
-    const req = tx.objectStore(STORE).delete(id);
-    req.onsuccess = () => resolve();
-    req.onerror = () => reject(req.error);
-  });
-}
-
-function clearAllItems() {
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, "readwrite");
-    const req = tx.objectStore(STORE).clear();
-    req.onsuccess = () => resolve();
-    req.onerror = () => reject(req.error);
-  });
+/* ============================================================
+   Session ID (প্রতি tab/browser session আলাদা)
+   ============================================================ */
+let sessionId = sessionStorage.getItem("sessionId");
+if (!sessionId) {
+  sessionId = "S_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+  sessionStorage.setItem("sessionId", sessionId);
 }
 
 /* ============================================================
@@ -228,6 +299,7 @@ const app = document.querySelector("#app"),
       theme = document.querySelector("#theme");
 
 let items = [];
+let history = [];
 let currentPage = "home";
 
 if (localStorage.theme === "dark") {
@@ -254,13 +326,20 @@ search.oninput = () => {
     renderMediaPage(currentPage, search.value);
 };
 
-function page(p) {
+async function page(p) {
   side.classList.remove("open");
   currentPage = p;
   search.value = "";
 
+  // 🔥 Log visit (Home ছাড়া বাকি পেজে)
+  if (p !== "home") {
+    await logHistory("visit", "Page: " + p);
+    history = await getAllHistory();
+  }
+
   if (p === "home") home();
   else if (p === "videos" || p === "files") renderMediaPage(p);
+  else if (p === "history") historyPage();
   else if (p === "profile") profile();
   else if (p === "settings") settings();
   else if (p === "admin") admin();
@@ -273,33 +352,53 @@ function esc(x) {
   );
 }
 
+function timeAgo(t) {
+  const s = Math.floor((Date.now() - t) / 1000);
+  if (s < 60) return s + "s ago";
+  if (s < 3600) return Math.floor(s/60) + "m ago";
+  if (s < 86400) return Math.floor(s/3600) + "h ago";
+  return Math.floor(s/86400) + "d ago";
+}
+function fullTime(t) {
+  const d = new Date(t);
+  return d.toLocaleString();
+}
+
 /* ============================================================
-   Card renderer — Blob URL ব্যবহার করছি (memory efficient)
+   Card — Blob URL
    ============================================================ */
 function card(x) {
   let c = document.createElement("div");
   c.className = "card media";
 
   if (x.type.startsWith("video/")) {
-    // Blob থেকে temporary URL বানাই
     const url = URL.createObjectURL(x.blob);
     c.innerHTML = `
       <video controls preload="metadata" src="${url}"></video>
       <div class="name">${esc(x.name)}</div>
       <p class="muted" style="font-size:13px">${bytes(x.size)}</p>
     `;
+    // 🔥 View log (video play হলে)
+    const v = c.querySelector("video");
+    v.addEventListener("play", async () => {
+      await logHistory("view", x.name, { kind: "video" });
+    }, { once: true });
   } else {
     c.innerHTML = `
       <div style="font-size:50px;text-align:center">📄</div>
       <div class="name">${esc(x.name)}</div>
       <p class="muted" style="font-size:13px">${bytes(x.size)}</p>
     `;
+    // 🔥 View log (file download button এ চাপলে হবে)
   }
 
   let b = document.createElement("button");
   b.className = "btn";
   b.textContent = "⬇ Download";
-  b.onclick = () => downloadBlob(x.blob, x.name);
+  b.onclick = async () => {
+    await logHistory("download", x.name, { kind: x.type.startsWith("video/") ? "video" : "file" });
+    downloadBlob(x.blob, x.name);
+  };
   c.appendChild(b);
 
   return c;
@@ -337,13 +436,35 @@ function home() {
   let videos = items.filter(x => x.type.startsWith("video/")).length;
   let files = items.length - videos;
   let totalSize = items.reduce((s, x) => s + (x.size || 0), 0);
+  let visits = history.filter(h => h.action === "visit").length;
+  let downloads = history.filter(h => h.action === "download").length;
 
   app.innerHTML = `
     <div class="card1">
       <h1 id="hm-btn">🏠 Home</h1>
       <p class="muted">WELCOME TO BR HACKER SITE</p>
-      <p style="text-align:center">Total storage used: <b>${bytes(totalSize)}</b></p>
+      <p style="text-align:center">Storage: <b>${bytes(totalSize)}</b></p>
     </div>
+
+    <div class="stat-grid">
+      <div class="stat-box">
+        <span class="num">${visits}</span>
+        <span class="lbl">👁 Visits</span>
+      </div>
+      <div class="stat-box">
+        <span class="num">${downloads}</span>
+        <span class="lbl">⬇ Downloads</span>
+      </div>
+      <div class="stat-box">
+        <span class="num">${videos}</span>
+        <span class="lbl">🎬 Videos</span>
+      </div>
+      <div class="stat-box">
+        <span class="num">${files}</span>
+        <span class="lbl">📁 Files</span>
+      </div>
+    </div>
+
     <div class="grid">
       <div class="card2">
         <h2>🎬 Videos</h2>
@@ -355,8 +476,103 @@ function home() {
         <p>${files} file(s)</p>
         <button class="btn2" onclick="page('files')">Open Files</button>
       </div>
+      <div class="card3">
+        <h2>🕒 History</h2>
+        <p>${history.length} activity record(s)</p>
+        <button class="btn3" onclick="page('history')">View History</button>
+      </div>
     </div>
   `;
+}
+
+/* ============================================================
+   🕒 HISTORY PAGE — User এর সব activity
+   ============================================================ */
+async function historyPage(filter = "all") {
+  history = await getAllHistory();
+
+  let filtered = filter === "all"
+    ? history
+    : history.filter(h => h.action === filter);
+
+  const actionIcon = {
+    visit: "👁", view: "▶️", download: "⬇", upload: "⬆",
+    delete: "🗑", login: "🔓"
+  };
+
+  app.innerHTML = `
+    <div class="card">
+      <h1>🕒 Activity History</h1>
+      <p class="muted">All your activity is shown here</p>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <span class="num">${history.filter(h=>h.action==="visit").length}</span>
+          <span class="lbl">Visits</span>
+        </div>
+        <div class="stat-box">
+          <span class="num">${history.filter(h=>h.action==="view").length}</span>
+          <span class="lbl">Views</span>
+        </div>
+        <div class="stat-box">
+          <span class="num">${history.filter(h=>h.action==="download").length}</span>
+          <span class="lbl">Downloads</span>
+        </div>
+        <div class="stat-box">
+          <span class="num">${history.filter(h=>h.action==="upload").length}</span>
+          <span class="lbl">Uploads</span>
+        </div>
+      </div>
+
+      <div class="tab-bar">
+        ${["all","visit","view","download","upload","login"].map(f =>
+          `<button data-f="${f}" class="${filter===f?"active":""}">${
+            f.charAt(0).toUpperCase()+f.slice(1)
+          }</button>`
+        ).join("")}
+      </div>
+
+      <button id="clrHist" class="btn red" style="margin-bottom:15px">🗑 Clear History</button>
+
+      <div id="hList"></div>
+    </div>
+  `;
+
+  document.querySelectorAll("[data-f]").forEach(b =>
+    b.onclick = () => historyPage(b.dataset.f)
+  );
+  document.querySelector("#clrHist").onclick = async () => {
+    if (!confirm("Clear all history?")) return;
+    await clearHistory();
+    history = [];
+    historyPage();
+  };
+
+  let list = document.querySelector("#hList");
+  if (!filtered.length) {
+    list.innerHTML = "<p class='muted'>No activity found.</p>";
+    return;
+  }
+  filtered.slice(0, 200).forEach(h => {
+    let d = document.createElement("div");
+    d.className = "history-item";
+    d.innerHTML = `
+      <div class="history-icon">${actionIcon[h.action] || "•"}</div>
+      <div class="history-body">
+        <span class="history-action act-${h.action}">${h.action.toUpperCase()}</span>
+        <b>${esc(h.target || "—")}</b>
+        <div class="history-time">
+          ${fullTime(h.time)} · ${timeAgo(h.time)} · ${h.device}
+        </div>
+      </div>
+      <button class="btn red" style="padding:5px 10px;font-size:12px">✕</button>
+    `;
+    d.querySelector("button").onclick = async () => {
+      await deleteHistoryItem(h.id);
+      historyPage(filter);
+    };
+    list.appendChild(d);
+  });
 }
 
 function profile() {
@@ -389,6 +605,7 @@ function settings() {
       <h3>Storage info</h3>
       <p>Total items: <b>${items.length}</b></p>
       <p>Total size: <b>${bytes(items.reduce((s,x)=>s+(x.size||0),0))}</b></p>
+      <p>History records: <b>${history.length}</b></p>
       <button id="clearAll" class="btn red">🗑 Clear All Uploads</button>
       <h3>Language</h3>
       <select id="lang">
@@ -407,6 +624,7 @@ function settings() {
     if (!confirm("Delete ALL uploads? This cannot be undone.")) return;
     await clearAllItems();
     items = [];
+    await logHistory("delete", "ALL uploads cleared");
     alert("All items deleted.");
     settings();
   };
@@ -421,14 +639,107 @@ function admin() {
       <p id="msg"></p>
     </div>
   `;
-  document.querySelector("#unlock").onclick = () =>
-    document.querySelector("#pass").value === "BADHAN HACKER"
-      ? dashboard()
-      : document.querySelector("#msg").textContent = "Wrong password.";
+  document.querySelector("#unlock").onclick = async () => {
+    if (document.querySelector("#pass").value === "BADHAN HACKER") {
+      await logHistory("login", "Admin logged in");
+      dashboard();
+    } else {
+      document.querySelector("#msg").textContent = "Wrong password.";
+    }
+  };
 }
 
-function dashboard() {
+/* ============================================================
+   🎛 ADMIN DASHBOARD with Analytics
+   ============================================================ */
+async function dashboard() {
+  history = await getAllHistory();
+
+  const visits   = history.filter(h => h.action === "visit");
+  const views    = history.filter(h => h.action === "view");
+  const downloads= history.filter(h => h.action === "download");
+  const uploads  = history.filter(h => h.action === "upload");
+
+  const uniqueSessions = new Set(history.map(h => h.session)).size;
+  const uniqueFiles = new Set(downloads.map(h => h.target)).size;
+  const videoViews = views.filter(v => v.kind === "video").length;
+
+  // Top 5 most downloaded
+  const dlCount = {};
+  downloads.forEach(d => dlCount[d.target] = (dlCount[d.target] || 0) + 1);
+  const topDl = Object.entries(dlCount)
+    .sort((a, b) => b[1] - a[1]).slice(0, 5);
+
+  // Top 5 most viewed
+  const vwCount = {};
+  views.forEach(v => vwCount[v.target] = (vwCount[v.target] || 0) + 1);
+  const topVw = Object.entries(vwCount)
+    .sort((a, b) => b[1] - a[1]).slice(0, 5);
+
   app.innerHTML = `
+    <div class="card">
+      <h1>📊 Analytics Dashboard</h1>
+      <p class="muted">Real-time activity overview</p>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <span class="num">${visits.length}</span>
+          <span class="lbl">👁 Total Visits</span>
+        </div>
+        <div class="stat-box">
+          <span class="num">${uniqueSessions}</span>
+          <span class="lbl">👥 Unique Sessions</span>
+        </div>
+        <div class="stat-box">
+          <span class="num">${views.length}</span>
+          <span class="lbl">▶️ Total Views</span>
+        </div>
+        <div class="stat-box">
+          <span class="num">${downloads.length}</span>
+          <span class="lbl">⬇ Total Downloads</span>
+        </div>
+        <div class="stat-box">
+          <span class="num">${videoViews}</span>
+          <span class="lbl">🎬 Video Plays</span>
+        </div>
+        <div class="stat-box">
+          <span class="num">${uniqueFiles}</span>
+          <span class="lbl">📁 Files Downloaded</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🔥 Top 5 Downloaded Files</h2>
+      ${
+        topDl.length
+          ? topDl.map(([n, c]) =>
+              `<div class="admin-row">
+                 <span style="flex:1">📁 ${esc(n)}</span>
+                 <b>${c}×</b>
+               </div>`).join("")
+          : "<p class='muted'>No downloads yet.</p>"
+      }
+    </div>
+
+    <div class="card">
+      <h2>👀 Top 5 Viewed Files</h2>
+      ${
+        topVw.length
+          ? topVw.map(([n, c]) =>
+              `<div class="admin-row">
+                 <span style="flex:1">🎬 ${esc(n)}</span>
+                 <b>${c}×</b>
+               </div>`).join("")
+          : "<p class='muted'>No views yet.</p>"
+      }
+    </div>
+
+    <div class="card">
+      <h2>🕒 Recent Activity (last 30)</h2>
+      <div id="recent"></div>
+    </div>
+
     <div class="card">
       <h1>🔒 Admin Panel</h1>
       <h2>Upload Video / File (Unlimited)</h2>
@@ -441,12 +752,40 @@ function dashboard() {
       <div id="progress"><div class="bar"></div></div>
       <p id="msg"></p>
     </div>
+
     <div class="card">
       <h2>Manage Uploads</h2>
       <div id="list"></div>
     </div>
   `;
 
+  // Recent activity render
+  let recent = document.querySelector("#recent");
+  const actionIcon = {
+    visit: "👁", view: "▶️", download: "⬇", upload: "⬆",
+    delete: "🗑", login: "🔓"
+  };
+  if (!history.length) {
+    recent.innerHTML = "<p class='muted'>No activity yet.</p>";
+  } else {
+    history.slice(0, 30).forEach(h => {
+      let d = document.createElement("div");
+      d.className = "history-item";
+      d.innerHTML = `
+        <div class="history-icon">${actionIcon[h.action] || "•"}</div>
+        <div class="history-body">
+          <span class="history-action act-${h.action}">${h.action.toUpperCase()}</span>
+          <b>${esc(h.target || "—")}</b>
+          <div class="history-time">
+            ${fullTime(h.time)} · ${timeAgo(h.time)} · ${h.device} · ${esc(h.session)}
+          </div>
+        </div>
+      `;
+      recent.appendChild(d);
+    });
+  }
+
+  // Manage uploads
   let list = document.querySelector("#list");
   if (!items.length) list.innerHTML = "<p class='muted'>No uploads yet.</p>";
 
@@ -462,12 +801,14 @@ function dashboard() {
     `;
     d.querySelector("button").onclick = async () => {
       await deleteItem(x.id);
+      await logHistory("delete", x.name);
       items = items.filter(it => it.id !== x.id);
       dashboard();
     };
     list.appendChild(d);
   });
 
+  // Upload
   document.querySelector("#up").onclick = async () => {
     let f = document.querySelector("#file").files[0];
     let k = document.querySelector("#kind").value;
@@ -486,18 +827,18 @@ function dashboard() {
       prog.style.display = "block";
       bar.style.width = "30%";
 
-      // Blob হিসেবে সরাসরি save — no base64, no memory blow-up
       const item = {
         id: Date.now() + "_" + Math.random().toString(36).slice(2),
         name: f.name,
         type: f.type || "application/octet-stream",
         size: f.size,
         created: Date.now(),
-        blob: f   // ← File object directly (Blob subclass)
+        blob: f
       };
 
       bar.style.width = "70%";
       await addItem(item);
+      await logHistory("upload", f.name, { kind: k, size: f.size });
 
       items.unshift(item);
       bar.style.width = "100%";
@@ -518,7 +859,7 @@ function dashboard() {
 }
 
 /* ============================================================
-   Download — Blob থেকে
+   Download
    ============================================================ */
 function downloadBlob(blob, name) {
   const url = URL.createObjectURL(blob);
@@ -528,7 +869,6 @@ function downloadBlob(blob, name) {
   document.body.appendChild(a);
   a.click();
   a.remove();
-  // URL revoke একটু পরে (download শুরু হওয়ার পর)
   setTimeout(() => URL.revokeObjectURL(url), 5000);
 }
 
@@ -541,13 +881,21 @@ function bytes(n) {
 }
 
 /* ============================================================
-   Init
+   Init — session visit log
    ============================================================ */
 (async function init() {
   try {
     await openDB();
     items = await getAllItems();
     items.sort((a, b) => (b.created || 0) - (a.created || 0));
+
+    // 🔥 প্রথম visit log
+    await logHistory("visit", "Site opened");
+    history = await getAllHistory();
+
+    // Heartbeat — প্রতি 30 sec এ last seen update (optional)
+    // এখানে শুধু initial visit log করছি।
+
     page("home");
   } catch (e) {
     console.error("DB init failed:", e);
